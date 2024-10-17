@@ -72,10 +72,14 @@ if is_windows:
 
 # Now let's find the *.uproject file inside pwd
 uproject_file_path = ""
-for file in os.listdir(pwd):
-	if file.endswith(".uproject"):
-		uproject_file_path = os.path.join(pwd, file)
-		break
+for root, _, files in os.walk(os.getcwd()):
+    for file in files:
+        if file.endswith(".uproject"):
+            uproject_file_path = os.path.join(root, file)
+            break
+    if uproject_file_path:  # Break out of the outer loop if found
+        break
+
 
 assert uproject_file_path != "", "The `git difftool.py` should be executed from the UE project dir."
 
